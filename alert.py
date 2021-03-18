@@ -5,7 +5,6 @@ from os import path,mkdir
 
 # Check if Dev Mode
 inTestMode = (True if path.isfile("dev") else False)
-print(inTestMode)
 
 
 ip = requests.get('http://ip.42.pl/raw').text
@@ -23,8 +22,11 @@ def log(msg: str):
 # Reads Config File 
 def readConfig():
     configparams = {}
-    configname = ("config" if inTestMode else "config_dev")
-    configfile = open(configname,"r").read()
+    configname = ("config" if not inTestMode else "config_dev")
+    try:
+        configfile = open(configname,"r").read()
+    except FileNotFoundError as e:
+        log("Config Datei wurde nicht gefunden, Test Modus: {}".format(inTestMode))
     for f in configfile.split("\n"):
         vals : str = f.split(":")
         configparams[vals[0].strip()] = vals[1].strip()
@@ -32,6 +34,8 @@ def readConfig():
 
 
 configFile = readConfig()
+
+
 
 
 
