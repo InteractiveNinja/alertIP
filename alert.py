@@ -10,12 +10,13 @@ inTestMode = (True if path.isfile("dev") else False)
 ip = requests.get('http://ip.42.pl/raw').text
 
 # Check if Log Folder exist if not creates one, creates a log file
-if not path.isdir("logs"):
-    mkdir("logs")
-logname = "logfile-{}.log".format(datetime.now().strftime("%H-%M-%S"))
-logfile = open("{}\{}".format("logs",logname),"w")
+
 # Logging Function 
 def log(msg: str):
+    if not path.isdir("logs"):
+        mkdir("logs")
+    logname = "logfile-{}.log".format(datetime.now().strftime("%H-%M-%S"))
+    logfile = open("{}\{}".format("logs",logname),"w",encoding="utf-8")
     time = datetime.now().strftime("%H:%M:%S")
     logfile.write("{}: {}".format(time,msg))
 
@@ -34,6 +35,9 @@ def readConfig():
 
 
 configFile = readConfig()
+ip = requests.get('http://ip.42.pl/raw').text
+if ip != configFile["ip"]:
+    log("IP Adresse hat sich geändert {} ==> {} \nAdmin wird {} wird kontaktiert".format( configFile["ip"],ip,configFile["alertmail"]))
 
 
 
