@@ -38,7 +38,9 @@ configFile = readConfig()
 ip = requests.get('http://ip.42.pl/raw').text
 if ip != configFile["ip"]:
     log("IP Adresse hat sich geändert {} ==> {} \nAdmin wird {} wird kontaktiert".format( configFile["ip"],ip,configFile["alertmail"]))
-
+    from sendmail import mailSender
+    mail = mailSender(configFile)
+    mail.sendMail()
 
 
 
