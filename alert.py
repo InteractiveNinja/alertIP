@@ -19,6 +19,7 @@ def log(msg: str):
     logfile = open("{}\{}".format("logs",logname),"w",encoding="utf-8")
     time = datetime.now().strftime("%H:%M:%S")
     logfile.write("{}: {}".format(time,msg))
+    print("{}: {}".format(time,msg))
 
 # Reads Config File 
 def readConfig():
