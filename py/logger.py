@@ -2,7 +2,7 @@ from datetime import datetime
 from os import path,mkdir,getcwd
 
 from enum import Enum
-class errorcode(Enum):
+class logType(Enum):
     success = 0
     warning = 1
     log     = 2
@@ -18,7 +18,7 @@ class Logger:
         self.logfile.write("--------- Begin of Log ---------\n")
        
 
-    def log(self,msg:str,logType : errorcode):
+    def log(self,msg:str,logType : logType):
         time = datetime.now().strftime("%H:%M:%S")
         msgStr = "[{}] {}: {}\n".format(logType.name,time,msg)
         self.logfile.write(msgStr)
