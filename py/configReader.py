@@ -41,10 +41,17 @@ class Reader:
 
     def __checkFileForNotDefault(self):
         f = open(self.__configPath, "r")
-        if f.read() == self.__defaultConfig:
+        config = f.read()
+        if config == self.__defaultConfig:
             self.__log.log("Default Config is still Loaded, please Change it at {}".format(
                 self.__configPath), logType.invalid)
             quit()
+        for line in config.split("\n"):
+            if "{" in line or "}" in line:
+                print(line)
+                self.__log.log("Default Config is still Loaded, please Change it at {}".format(
+                self.__configPath), logType.invalid)
+                quit()
 
     def readConfig(self):
         """Gibt ein Dictory mit alle Config Attributen zurück
