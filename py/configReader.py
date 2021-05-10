@@ -19,7 +19,7 @@ class Reader:
                 os.mkdir(self.__configFolder)
                 self.__log.log("Config Folder has been generated at {}".format(
                     self.__configFolder), logType.success)
-        except:
+        except OSError:
             self.__log.log("Config Folder cant be generated",logType.error)
             quit()
 
@@ -35,7 +35,7 @@ class Reader:
                 quit()
             else:
                 self.__checkFileForNotDefault()
-        except:
+        except OSError:
             self.__log.log("Config File cant be generated",logType.error)
             quit()
 
