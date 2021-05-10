@@ -1,6 +1,0 @@
-ip: {your public ip}
-alertmail: {your admin mail} 
-sender: {sendermail}
-senderpass: {sender smtp password} 
-smtp: {smtp host}
-port: {smtp port}
