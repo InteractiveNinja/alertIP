@@ -7,6 +7,7 @@ class logType(Enum):
     warning = 1
     log     = 2
     invalid = 3
+    error   = 4
 class Logger:
 
     def __init__(self):

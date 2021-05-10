@@ -14,21 +14,30 @@ class Reader:
         self.__checkFile()
 
     def __checkFolder(self):
-        if not os.path.exists(self.__configFolder):
-            os.mkdir(self.__configFolder)
-            self.__log.log("Config Folder has been generated at {}".format(
-                self.__configFolder), logType.success)
+        try:
+            if not os.path.exists(self.__configFolder):
+                os.mkdir(self.__configFolder)
+                self.__log.log("Config Folder has been generated at {}".format(
+                    self.__configFolder), logType.success)
+        except:
+            self.__log.log("Config Folder cant be generated",logType.error)
+            quit()
+
 
     def __checkFile(self):
-        if not os.path.exists(self.__configPath):
-            f = open(self.__configPath, "w")
-            f.write(self.__defaultConfig)
-            f.close()
-            self.__log.log("Config File has been generated at {} please Update it".format(
-                self.__configPath), logType.success)
+        try:
+            if not os.path.exists(self.__configPath):
+                f = open(self.__configPath, "w")
+                f.write(self.__defaultConfig)
+                f.close()
+                self.__log.log("Config File has been generated at {} please Update it".format(
+                    self.__configPath), logType.success)
+                quit()
+            else:
+                self.__checkFileForNotDefault()
+        except:
+            self.__log.log("Config File cant be generated",logType.error)
             quit()
-        else:
-            self.__checkFileForNotDefault()
 
     def __checkFileForNotDefault(self):
         f = open(self.__configPath, "r")
@@ -47,10 +56,14 @@ class Reader:
         smtp: SMTP Server IP/Hostname \n
         port: SMTP Server Port"""
         configParams = {}
-        f = open(self.__configPath, "r")
-        config = f.read()
-        for line in config.split("\n"):
-            attrName, attrVal = line.split(":")
-            configParams[attrName] = attrVal.strip()
-        f.close()
+        try:
+            f = open(self.__configPath, "r")
+            config = f.read()
+            for line in config.split("\n"):
+                attrName, attrVal = line.split(":")
+                configParams[attrName] = attrVal.strip()
+            f.close()
+        except:
+            self.__log.log("Config File cant be read",logType.error)
+            quit()
         return configParams
