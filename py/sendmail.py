@@ -2,22 +2,21 @@ import smtplib
 from smtplib import SMTPException
 class mailSender:
     def __init__(self,configsvals):
-        self.mail : str = configsvals["alertmail"]
-        self.sender : str = configsvals["sender"]
-        self.smtp : str = configsvals["smtp"]
-        self.port : str = configsvals["port"]
-        self.senderpass : str = configsvals["senderpass"]
+        self.__alertMail : str = configsvals["alertmail"]
+        self.__alertName : str = configsvals["alertname"]
+        self.__sender : str = configsvals["sender"]
+        self.__smtp : str = configsvals["smtp"]
+        self.__port : str = configsvals["port"]
+        self.__senderpass : str = configsvals["senderpass"]
     
     def sendMail(self):
+        message = """From: {} <{}@{}>
+To: {} <{}>
+Subject: IP Alert
 
-        message = """
-        Die Public Adress hat sich geaendert, bitte kontrollieren und das Warnscript umconfigurieren.
-        """
-        server = smtplib.SMTP(self.smtp,self.port)
-        server.starttls()
-        server.login(self.sender,self.senderpass)
-        try:
-            server.sendmail(self.sender,self.mail,message)
-        except SMTPException as e:
-            print("Fehler beim erstellen der Mail")
-            print(e)
+Die IP des Servers hat sich geaendert, bitte pruefe das nach und restarte das Programm
+
+Das ist eine Automatisierte Email.
+""".format(self.__sender,self.__sender,self.__smtp,self.__alertName,self.__alertMail)
+        server = smtplib.SMTP(self.__smtp)
+        server.sendmail(self.__sender,self.__alertMail,message)

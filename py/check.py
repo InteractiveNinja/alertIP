@@ -1,6 +1,7 @@
 import requests
 from .configReader import Reader
 from .logger import Logger,logType
+from .sendMail import mailSender
 class Check:
     def __init__(self,logger: Logger,reader : Reader):
         self.__logger = logger
@@ -13,6 +14,7 @@ class Check:
             self.__logger.log("IP hasn't changed",logType.success)
         else:
             self.__logger.log("IP has Changed {}=>{}, sending Alert Mail".format(configPublicIP,publicIP),logType.warning)
+            mailSender(self.__config).sendMail()
             quit()
 
 
