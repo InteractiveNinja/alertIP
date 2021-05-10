@@ -1,5 +1,5 @@
 import os
-from py.logger import Logger,logType
+from .logger import Logger,logType
 
 class Reader:
     def __init__(self,logger: Logger):
