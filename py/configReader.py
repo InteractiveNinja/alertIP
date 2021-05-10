@@ -8,7 +8,7 @@ class Reader:
         self.__execPath = os.getcwd()
         self.__configFolder = "{}\config".format(self.__execPath)
         self.__configPath = "{}\config.cfg".format(self.__configFolder)
-        self.__defaultConfig = "ip: {your public ip}\nchecktime: {check time in seconds}\nalertmail: {your admin mail}\nsender: {sendermail}\nsenderpass: {sender smtp password}\nsmtp: {smtp host}\nport: {smtp port}"
+        self.__defaultConfig = "ip: {your public ip}\nchecktime: {check time in seconds}\nalertmail: {your admin mail}\nalertname: {Admin Name}\nsender: {sendermail}\nsenderpass: {sender smtp password}\nsmtp: {smtp host}\nport: {smtp port}"
 
         self.__checkFolder()
         self.__checkFile()
@@ -59,6 +59,7 @@ class Reader:
         ip          : IP Adresse die geprüft werden soll\n
         checktime   : Zeit in Sekunden bis zur nächsten Prüfung\n 
         alertmail   : Zu alamierende Email Adresse\n
+        alertname   : Name des Admins
         sender      : Email Sender Benutzer\n
         senderpass  : Email Sender Passwort\n
         smtp        : SMTP Server IP/Hostname \n
