@@ -1,12 +1,14 @@
 import os
-from .logger import Logger,logType
+from .logger import Logger, logType
+
 
 class Reader:
     def __init__(self, logger: Logger):
-        self.__logger = logger
+        self.__log = logger
         self.__execPath = os.getcwd()
         self.__configFolder = "{}\config".format(self.__execPath)
         self.__configPath = "{}\config.cfg".format(self.__configFolder)
+        self.__defaultConfig = "ip: {your public ip}\nalertmail: {your admin mail}\nsender: {sendermail}\nsenderpass: {sender smtp password}\nsmtp: {smtp host}\nport: {smtp port}"
 
         self.__checkFolder()
         self.__checkFile()
@@ -14,17 +16,27 @@ class Reader:
     def __checkFolder(self):
         if not os.path.exists(self.__configFolder):
             os.mkdir(self.__configFolder)
-            self.__logger.log("Config Folder has been generated at {}".format(
+            self.__log.log("Config Folder has been generated at {}".format(
                 self.__configFolder), logType.success)
 
     def __checkFile(self):
         if not os.path.exists(self.__configPath):
             f = open(self.__configPath, "w")
-            f.write("ip: {your public ip}\nalertmail: {your admin mail}\nsender: {sendermail}\nsenderpass: {sender smtp password}\nsmtp: {smtp host}\nport: {smtp port}")
-            self.__logger.log("Config File has been generated at {} please Update it".format(
+            f.write(self.__defaultConfig)
+            f.close()
+            self.__log.log("Config File has been generated at {} please Update it".format(
                 self.__configPath), logType.success)
+            quit()
+        else:
+            self.__checkFileForNotDefault()
 
-    
+    def __checkFileForNotDefault(self):
+        f = open(self.__configPath, "r")
+        if f.read() == self.__defaultConfig:
+            self.__log.log("Default Config is still Loaded, please Change it at {}".format(
+                self.__configPath), logType.invalid)
+            quit()
+
     def readConfig(self):
         """Gibt ein Dictory mit alle Config Attributen zurück
         Folgende Werte sind zu finden\n
@@ -35,8 +47,10 @@ class Reader:
         smtp: SMTP Server IP/Hostname \n
         port: SMTP Server Port"""
         configParams = {}
-        config = open(self.__configPath, "r").read()
+        f = open(self.__configPath, "r")
+        config = f.read()
         for line in config.split("\n"):
-            attrName,attrVal = line.split(":")
+            attrName, attrVal = line.split(":")
             configParams[attrName] = attrVal.strip()
-        return configParams 
+        f.close()
+        return configParams
