@@ -1,7 +1,7 @@
 import requests
 from .configReader import Reader
 from .logger import Logger,logType
-from .sendMail import mailSender
+from .sendmail import mailSender
 class Check:
     def __init__(self,logger: Logger,reader : Reader):
         self.__logger = logger
