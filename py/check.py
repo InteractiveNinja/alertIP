@@ -1,4 +1,5 @@
 import requests
+from sys import exit
 from .configReader import Reader
 from .logger import Logger,logType
 from .sendmail import mailSender
@@ -15,7 +16,7 @@ class Check:
         else:
             self.__logger.log("IP has Changed {}=>{}, sending Alert Mail".format(configPublicIP,publicIP),logType.warning)
             mailSender(self.__config).sendMail()
-            quit()
+            exit()
 
 
 

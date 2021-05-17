@@ -1,4 +1,5 @@
 import os
+from sys import exit
 from .logger import Logger, logType
 
 
@@ -21,7 +22,7 @@ class Reader:
                     self.__configFolder), logType.success)
         except OSError:
             self.__log.log("Config Folder cant be generated",logType.error)
-            quit()
+            exit()
 
 
     def __checkFile(self):
@@ -32,12 +33,12 @@ class Reader:
                 f.close()
                 self.__log.log("Config File has been generated at {} please Update it".format(
                     self.__configPath), logType.success)
-                quit()
+                exit()
             else:
                 self.__checkFileForNotDefault()
         except OSError:
             self.__log.log("Config File cant be generated",logType.error)
-            quit()
+            exit()
 
     def __checkFileForNotDefault(self):
         f = open(self.__configPath, "r")
@@ -45,13 +46,13 @@ class Reader:
         if config == self.__defaultConfig:
             self.__log.log("Default Config is still Loaded, please Change it at {}".format(
                 self.__configPath), logType.invalid)
-            quit()
+            exit()
         for line in config.split("\n"):
             if "{" in line or "}" in line:
                 print(line)
                 self.__log.log("Default Config is still Loaded, please Change it at {}".format(
                 self.__configPath), logType.invalid)
-                quit()
+                exit()
 
     def readConfig(self):
         """Gibt ein Dictory mit alle Config Attributen zurück
@@ -74,5 +75,5 @@ class Reader:
             f.close()
         except:
             self.__log.log("Config File cant be read",logType.error)
-            quit()
+            exit()
         return configParams

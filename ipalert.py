@@ -1,7 +1,7 @@
 
 
 import time
-from sys import argv
+from sys import argv,exit
 from py.logger import Logger, logType
 from py.configReader import Reader
 from py.check import Check
@@ -15,7 +15,7 @@ if __name__ == "__main__":
         checkTime = int(reader.readConfig()["checktime"])
     except:
         logger.log("Parsing Error from Checktime, please look at the Configfile",logType.error)
-        quit()
+        exit()
     while(True):
         checker.checkIP()
         time.sleep(checkTime)
